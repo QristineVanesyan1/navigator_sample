@@ -84,14 +84,14 @@ class _TopicSummaryWidget extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 12),
           child: Text(
             topicType.getTitle(),
-            style: const TextStyle(fontSize: 30, color: Color(0xFFE2E2E2)),
+            style: Theme.of(context).textTheme.headline2,
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 15),
           child: Text(
             topicType.getDesc(),
-            style: const TextStyle(fontSize: 16, color: Color(0xFFE2E2E2)),
+            style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
       ],

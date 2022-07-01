@@ -15,13 +15,8 @@ class TopicButtonWidget extends StatelessWidget {
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: Text(
-              title.toUpperCase(),
-              style: const TextStyle(
-                fontSize: 14,
-                color: Color(0xFFE2E2E2),
-              ),
-            ),
+            child: Text(title.toUpperCase(),
+                style: Theme.of(context).textTheme.headline3),
           ),
         ));
   }

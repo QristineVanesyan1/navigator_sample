@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:navigator_sample/styles/colors.dart';
 import 'package:navigator_sample/navigator/app_path.dart';
 import 'package:navigator_sample/data/topic_type.dart';
 import 'package:navigator_sample/data/data_source.dart';
@@ -27,9 +26,8 @@ class _TopicsListScreenState extends State<TopicsListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: AppColors.grey,
-          //  leading: BackButton(onPressed: () => Navigator.of(context).pop()),
-        ),
+            //  leading: BackButton(onPressed: () => Navigator.of(context).pop()),
+            ),
         body: FutureBuilder<List<Report>>(
           future:
               DataSource().fetchData(TopicType.getType(widget.valueKey.value)),

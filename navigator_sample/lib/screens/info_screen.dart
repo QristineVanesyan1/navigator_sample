@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:navigator_sample/styles/colors.dart';
 import 'package:navigator_sample/data/data_source.dart';
 import 'package:navigator_sample/models/info.dart';
 import 'package:navigator_sample/widgets/progress_widget.dart';
@@ -16,7 +15,6 @@ class _InfoScreenState extends State<InfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.darkGrey,
         title: const Text('Info'),
         // leading: BackButton(onPressed: () => Navigator.of(context).pop()),//todo: check on pop page func
       ),
