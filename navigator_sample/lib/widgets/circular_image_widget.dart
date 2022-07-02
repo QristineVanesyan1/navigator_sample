@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navigator_sample/styles/theme_params.dart';
 
@@ -10,7 +11,7 @@ class CircularImageWidget extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: CircleAvatar(
         backgroundColor: ThemeParams.darkGrey,
-        radius: 75,
+        radius: kIsWeb ? 75 : 40,
         foregroundColor: ThemeParams.darkGrey,
       ),
     );

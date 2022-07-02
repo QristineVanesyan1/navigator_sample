@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navigator_sample/navigator/app_path.dart';
 import 'package:navigator_sample/data/topic_type.dart';
@@ -36,20 +37,9 @@ class _ButtonWidgetState extends State<ButtonWidget> {
                         _TopicSummaryWidget(
                           topicType: widget.topicType,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            TopicButtonWidget(
-                                title: 'Documentation',
-                                onTap: () => _onTopicButtonTap(
-                                    widget.topicType.getDocLink())),
-                            TopicButtonWidget(
-                              title: 'API Endpoint',
-                              onTap: () => _onTopicButtonTap(
-                                  widget.topicType.getEndPoint()),
-                            )
-                          ],
-                        ),
+                        _ApiDetailsButtonWidget(
+                          topicType: widget.topicType,
+                        )
                       ],
                     ),
                   ),
@@ -61,13 +51,41 @@ class _ButtonWidgetState extends State<ButtonWidget> {
     );
   }
 
+  void _onTap() => AppParams.delegate
+      .setNewRoutePath(AppPathModel(path: widget.topicType.name));
+}
+
+class _ApiDetailsButtonWidget extends StatelessWidget {
+  const _ApiDetailsButtonWidget({required this.topicType, Key? key})
+      : super(key: key);
+  final TopicType topicType;
+
+  @override
+  Widget build(BuildContext context) {
+    final buttons = <Widget>[
+      TopicButtonWidget(
+          title: 'Documentation',
+          onTap: () => _onTopicButtonTap(topicType.getDocLink())),
+      TopicButtonWidget(
+        title: 'API Endpoint',
+        onTap: () => _onTopicButtonTap(topicType.getEndPoint()),
+      )
+    ];
+    return kIsWeb
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: buttons,
+          )
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: buttons,
+          );
+  }
+
   void _onTopicButtonTap(String link) {
     var uri = Uri.parse(link);
     launchUrl(uri);
   }
-
-  void _onTap() => AppParams.delegate
-      .setNewRoutePath(AppPathModel(path: widget.topicType.name));
 }
 
 class _TopicSummaryWidget extends StatelessWidget {
@@ -92,6 +110,7 @@ class _TopicSummaryWidget extends StatelessWidget {
           child: Text(
             topicType.getDesc(),
             style: Theme.of(context).textTheme.bodyText1,
+            maxLines: kIsWeb ? null : 3,
           ),
         ),
       ],

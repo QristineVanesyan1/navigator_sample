@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navigator_sample/navigator/app_path.dart';
 import 'package:navigator_sample/widgets/button_widget.dart';
@@ -23,7 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 170, vertical: 50),
+            padding: kIsWeb
+                ? const EdgeInsets.symmetric(horizontal: 170, vertical: 50)
+                : const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -46,9 +49,10 @@ class _TitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(bottom: 30),
-      child: Text("Features", style: Theme.of(context).textTheme.headline1),
-    );
+        padding: kIsWeb
+            ? const EdgeInsets.only(bottom: 30)
+            : const EdgeInsets.only(bottom: 10),
+        child: Text("Features", style: Theme.of(context).textTheme.headline1));
   }
 }
 

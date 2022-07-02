@@ -12,9 +12,11 @@ class ThemeParams {
         headline2: TextStyle(fontSize: 30),
         headline3: TextStyle(fontSize: 14),
         bodyText1: TextStyle(fontSize: 16),
+        bodyText2: TextStyle(fontSize: 18),
       ).apply(bodyColor: const Color(0xFFE2E2E2)),
       scaffoldBackgroundColor: darkGrey,
       cardColor: grey,
+      progressIndicatorTheme: ProgressIndicatorThemeData(color: white),
       dividerColor: white.withOpacity(0.2),
       appBarTheme: AppBarTheme(backgroundColor: darkGrey));
 }
