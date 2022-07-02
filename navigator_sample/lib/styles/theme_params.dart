@@ -13,7 +13,7 @@ class ThemeParams {
         headline3: TextStyle(fontSize: 14),
         bodyText1: TextStyle(fontSize: 16),
         bodyText2: TextStyle(fontSize: 18),
-      ).apply(bodyColor: const Color(0xFFE2E2E2)),
+      ).apply(bodyColor: white),
       scaffoldBackgroundColor: darkGrey,
       cardColor: grey,
       progressIndicatorTheme: ProgressIndicatorThemeData(color: white),
