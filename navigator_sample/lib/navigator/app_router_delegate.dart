@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navigator_sample/navigator/app_path.dart';
 import 'package:navigator_sample/data/topic_type.dart';
@@ -37,7 +36,6 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
   bool _isCorrectId(String catalog) => true;
 
   List<Page<dynamic>> _pages() {
-    print("path: " + currentConfiguration.path.toString());
     var pages = <Page<dynamic>>[];
     if (currentConfiguration.isRoot == true) {
       pages.add(const MaterialPage<void>(child: HomeScreen()));
@@ -71,7 +69,6 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
               child: TopicsListScreen(
             valueKey: ValueKey(segments.first),
           )));
-          print(pages);
           return pages;
         }
       }

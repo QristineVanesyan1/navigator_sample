@@ -29,7 +29,6 @@ class AppRouteInformationParser extends RouteInformationParser<AppPathModel> {
     } else if (configuration.isUnknown == true) {
       return const RouteInformation(location: '/error404');
     } else {
-      print(configuration.path);
       return RouteInformation(location: configuration.path);
     }
   }
