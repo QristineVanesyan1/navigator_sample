@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navigator_sample/navigator/app_path.dart';
 import 'package:navigator_sample/data/topic_type.dart';
@@ -7,14 +8,13 @@ import 'package:navigator_sample/screens/details_screen.dart';
 import 'package:navigator_sample/screens/info_screen.dart';
 import 'package:navigator_sample/screens/topics_list_screen.dart';
 
-//TODO: Back button Problem
 class AppRouterDelegate extends RouterDelegate<AppPathModel>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   @override
   final GlobalKey<NavigatorState> navigatorKey;
 
   AppRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>();
-  var currentPath = AppPathModel(path: '/', isRoot: true);
+  var currentPath = AppPathModel(path: null, isRoot: true);
   // this one is responsible for URL
   @override
   AppPathModel get currentConfiguration => currentPath;
@@ -37,6 +37,7 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
   bool _isCorrectId(String catalog) => true;
 
   List<Page<dynamic>> _pages() {
+    print("path: " + currentConfiguration.path.toString());
     var pages = <Page<dynamic>>[];
     if (currentConfiguration.isRoot == true) {
       pages.add(const MaterialPage<void>(child: HomeScreen()));
@@ -70,6 +71,7 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
               child: TopicsListScreen(
             valueKey: ValueKey(segments.first),
           )));
+          print(pages);
           return pages;
         }
       }
@@ -82,12 +84,22 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
     if (!route.didPop(result)) {
       return false;
     }
-
-    // Update the list of pages by setting _selectedBook to null
-    currentPath = currentConfiguration.remove(); //todo: back button logic
-
-    notifyListeners();
-    return true;
+    if (currentPath.isRoot != true) {
+      final location = currentPath.path;
+      if (location?.lastIndexOf('/') != -1) {
+        final path = location?.substring(0, location.lastIndexOf('/'));
+        if (path == '') {
+          setNewRoutePath(AppPathModel(isRoot: true));
+        } else {
+          setNewRoutePath(AppPathModel(isRoot: false, path: path));
+        }
+        return true;
+      } else {
+        setNewRoutePath(AppPathModel(isRoot: true));
+        return true;
+      }
+    }
+    return false;
   }
 
   @override

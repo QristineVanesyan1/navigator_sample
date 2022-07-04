@@ -5,7 +5,7 @@ class Report {
   final String imageUrl;
   final String newsSite;
   final String summary;
-  final String publishedAt;
+  final DateTime publishedAt;
 
   Report(
       {required this.id,
@@ -24,7 +24,7 @@ class Report {
         imageUrl: json['imageUrl'],
         newsSite: json['newsSite'],
         summary: json['summary'],
-        publishedAt: json['publishedAt']);
+        publishedAt: DateTime.parse(json['publishedAt']));
   }
 
   Map<String, dynamic> toJson() {

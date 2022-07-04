@@ -63,11 +63,11 @@ class _ApiDetailsButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final buttons = <Widget>[
-      TopicButtonWidget(
-          title: 'Documentation',
+      TextButtonWidget(
+          title: 'Documentation'.toUpperCase(),
           onTap: () => _onTopicButtonTap(topicType.getDocLink())),
-      TopicButtonWidget(
-        title: 'API Endpoint',
+      TextButtonWidget(
+        title: 'API Endpoint'.toUpperCase(),
         onTap: () => _onTopicButtonTap(topicType.getEndPoint()),
       )
     ];

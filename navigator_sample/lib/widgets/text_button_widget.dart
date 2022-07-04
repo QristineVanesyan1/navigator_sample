@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TopicButtonWidget extends StatelessWidget {
-  const TopicButtonWidget({required this.title, required this.onTap, Key? key})
+class TextButtonWidget extends StatelessWidget {
+  const TextButtonWidget({required this.title, required this.onTap, Key? key})
       : super(key: key);
   final String title;
   final VoidCallback onTap;
@@ -15,8 +15,7 @@ class TopicButtonWidget extends StatelessWidget {
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: Text(title.toUpperCase(),
-                style: Theme.of(context).textTheme.headline3),
+            child: Text(title, style: Theme.of(context).textTheme.headline3),
           ),
         ));
   }

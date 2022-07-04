@@ -16,9 +16,7 @@ class _InfoScreenState extends State<InfoScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Info'),
-        leading: BackButton(
-            onPressed: () =>
-                Navigator.of(context).pop()), //todo: check on pop page func
+        leading: BackButton(onPressed: () => Navigator.of(context).pop()),
       ),
       body: FutureBuilder<Info>(
         future: DataSource().fetchInfo(),

@@ -9,7 +9,7 @@ class AppRouteInformationParser extends RouteInformationParser<AppPathModel> {
     final Uri uri = Uri.parse(routeInformation.location ?? '');
     var count = uri.pathSegments.length;
     if (count == 0) {
-      return AppPathModel(isRoot: true, path: '');
+      return AppPathModel(isRoot: true, path: null);
     } else if (count == 1 || count == 2) {
       String url = '';
       for (int i = 0; i < count; i++) {
@@ -29,6 +29,7 @@ class AppRouteInformationParser extends RouteInformationParser<AppPathModel> {
     } else if (configuration.isUnknown == true) {
       return const RouteInformation(location: '/error404');
     } else {
+      print(configuration.path);
       return RouteInformation(location: configuration.path);
     }
   }
