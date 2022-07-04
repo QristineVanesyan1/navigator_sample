@@ -5,7 +5,7 @@ import 'package:navigator_sample/data/topic_type.dart';
 import 'package:navigator_sample/navigator/app_params.dart';
 import 'package:navigator_sample/widgets/circular_image_widget.dart';
 import 'package:navigator_sample/widgets/divider_widget.dart';
-import 'package:navigator_sample/widgets/topic_button_widget.dart';
+import 'package:navigator_sample/widgets/text_button_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ButtonWidget extends StatefulWidget {

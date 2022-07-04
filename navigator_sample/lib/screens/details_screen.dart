@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:navigator_sample/data/data_source.dart';
 import 'package:navigator_sample/models/report.dart';
 import 'package:navigator_sample/widgets/progress_widget.dart';
-import 'package:navigator_sample/widgets/topic_button_widget.dart';
+import 'package:navigator_sample/widgets/text_button_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailsScreen extends StatefulWidget {
