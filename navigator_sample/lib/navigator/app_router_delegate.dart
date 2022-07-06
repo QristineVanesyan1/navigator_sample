@@ -7,12 +7,6 @@ import 'package:navigator_sample/screens/details_screen.dart';
 import 'package:navigator_sample/screens/info_screen.dart';
 import 'package:navigator_sample/screens/topics_list_screen.dart';
 
-//setInitialRoutePath
-//setRestoredRoutePath
-//setNewRoutePath
-//popRoute
-//currentConfiguration
-//build
 class AppRouterDelegate extends RouterDelegate<AppPathModel>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   @override
@@ -20,52 +14,58 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
 
   AppRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>();
   var currentPath = AppPathModel(path: null, isRoot: true);
-  // this one is responsible for URL
+
   @override
   AppPathModel get currentConfiguration => currentPath;
 
   @override
   Widget build(BuildContext context) {
     List<Page> pages = _pages();
+
     return Navigator(
       key: navigatorKey,
       pages: pages,
       onPopPage: _onPopPage,
-      onGenerateRoute: null,
     );
   }
+
+  RegExp _getRegex(int count) => RegExp("^[0-9]{$count}\$");
 
   bool _isCorrectCatalog(String catalog) =>
       (catalog == TopicType.articles.name ||
           catalog == TopicType.reports.name ||
           catalog == TopicType.blogs.name);
 
-  bool _isCorrectId(String catalog) => true;
+  bool _getRegex1(String catalog, String id) {
+    if (catalog == TopicType.articles.name) {
+      return _getRegex(5).hasMatch(id);
+    } else if (catalog == TopicType.reports.name) {
+      return _getRegex(4).hasMatch(id);
+    } else if (catalog == TopicType.blogs.name) {
+      return _getRegex(3).hasMatch(id);
+    } else {
+      return false;
+    }
+  }
 
   List<Page<dynamic>> _pages() {
     var pages = <Page<dynamic>>[];
     if (currentConfiguration.isRoot == true) {
       pages.add(const MaterialPage<void>(child: HomeScreen()));
-      return pages;
+    } else if (currentConfiguration.isUnknown == true) {
+      pages.add(const MaterialPage<void>(child: ErrorScreen()));
     } else {
       final segments = Uri.parse(currentConfiguration.path ?? '').pathSegments;
       if (segments.length == 2) {
         if (_isCorrectCatalog(segments.first)) {
-          if (_isCorrectId(segments[1])) {
+          if (_getRegex1(segments.first, segments[1])) {
             pages.add(MaterialPage<void>(
                 child: DetailsScreen(
               id: segments[1],
               valueKey: ValueKey(segments.first.toString()),
               reportJson: currentConfiguration.data as String?,
             )));
-            return pages;
-          } else {
-            pages.add(const MaterialPage<void>(child: ErrorScreen()));
-            return pages;
           }
-        } else {
-          pages.add(const MaterialPage<void>(child: ErrorScreen()));
-          return pages;
         }
       } else if (segments.length == 1) {
         if (segments.first == 'info') {
@@ -78,11 +78,9 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
               child: TopicsListScreen(
             valueKey: ValueKey(segments.first),
           )));
-          return pages;
         }
       }
     }
-    pages.add(const MaterialPage<void>(child: ErrorScreen()));
     return pages;
   }
 
