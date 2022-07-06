@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:navigator_sample/data/data_source.dart';
+import 'package:navigator_sample/domain/reports_repository.dart';
+import 'package:navigator_sample/locator.dart';
 import 'package:navigator_sample/models/info.dart';
 import 'package:navigator_sample/widgets/progress_widget.dart';
 
@@ -11,6 +12,8 @@ class InfoScreen extends StatefulWidget {
 }
 
 class _InfoScreenState extends State<InfoScreen> {
+  ReportsRepository get _reportsRepository => locator.get<ReportsRepository>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +22,7 @@ class _InfoScreenState extends State<InfoScreen> {
         leading: BackButton(onPressed: () => Navigator.of(context).pop()),
       ),
       body: FutureBuilder<Info>(
-        future: DataSource().fetchInfo(),
+        future: _reportsRepository.fetchInfo(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final data = snapshot.data;

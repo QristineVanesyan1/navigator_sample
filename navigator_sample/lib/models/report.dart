@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Report {
   final int id;
   final String title;
@@ -27,7 +29,24 @@ class Report {
         publishedAt: DateTime.parse(json['publishedAt']));
   }
 
-  Map<String, dynamic> toJson() {
+  static Map<String, dynamic> toJsonListOfReports(List<Report> reports) {
+    final result = <String, dynamic>{};
+    for (int i = 0; i < reports.length; i++) {
+      final report = reports[i];
+      final data = <String, dynamic>{};
+      data['id'] = report.id;
+      data['title'] = report.title;
+      data['url'] = report.url;
+      data['imageUrl'] = report.imageUrl;
+      data['newsSite'] = report.newsSite;
+      data['summary'] = report.summary;
+      data['publishedAt'] = report.publishedAt;
+      result[i.toString()] = data;
+    }
+    return result;
+  }
+
+  String toJson() {
     final data = <String, dynamic>{};
     data['id'] = id;
     data['title'] = title;
@@ -35,7 +54,7 @@ class Report {
     data['imageUrl'] = imageUrl;
     data['newsSite'] = newsSite;
     data['summary'] = summary;
-    data['publishedAt'] = publishedAt;
-    return data;
+    data['publishedAt'] = publishedAt.toIso8601String();
+    return json.encode(data);
   }
 }

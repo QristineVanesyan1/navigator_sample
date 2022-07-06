@@ -1,17 +1,17 @@
-class AppPathModel {
+import 'package:flutter/material.dart';
+
+class AppPathModel implements RouteInformation {
+  String? path;
   final bool? isUnknown;
   final bool? isRoot;
+  final Object? data;
 
-  String? path;
+  AppPathModel(
+      {this.path, this.isUnknown = false, this.isRoot = false, this.data});
 
-  AppPathModel remove() {
-    path = path!.substring(0, path!.lastIndexOf('/'));
-    return AppPathModel(path: path, isRoot: isRoot, isUnknown: isUnknown);
-  }
+  @override
+  String? get location => path;
 
-  AppPathModel({
-    this.path,
-    this.isUnknown = false,
-    this.isRoot = false,
-  });
+  @override
+  Object? get state => data;
 }

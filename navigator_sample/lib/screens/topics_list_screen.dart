@@ -1,12 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:navigator_sample/domain/reports_repository.dart';
+import 'package:navigator_sample/locator.dart';
 import 'package:navigator_sample/navigator/app_path.dart';
-import 'package:navigator_sample/data/topic_type.dart';
-import 'package:navigator_sample/data/data_source.dart';
-import 'package:navigator_sample/navigator/app_params.dart';
+import 'package:navigator_sample/models/topic_type.dart';
+import 'package:navigator_sample/constants/app_params.dart';
 import 'package:navigator_sample/models/report.dart';
+import 'package:navigator_sample/widgets/custom_list_tile.dart';
 import 'package:navigator_sample/widgets/progress_widget.dart';
-import 'package:intl/intl.dart';
 
 class TopicsListScreen extends StatefulWidget {
   const TopicsListScreen({required this.valueKey}) : super(key: valueKey);
@@ -17,6 +18,8 @@ class TopicsListScreen extends StatefulWidget {
 }
 
 class _TopicsListScreenState extends State<TopicsListScreen> {
+  ReportsRepository get _reportsRepository => locator.get<ReportsRepository>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,8 +27,8 @@ class _TopicsListScreenState extends State<TopicsListScreen> {
           leading: BackButton(onPressed: () => Navigator.of(context).pop()),
         ),
         body: FutureBuilder<List<Report>>(
-          future:
-              DataSource().fetchData(TopicType.getType(widget.valueKey.value)),
+          future: _reportsRepository
+              .fetchData(TopicType.getType(widget.valueKey.value)),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData) {
               return SingleChildScrollView(
@@ -45,7 +48,8 @@ class _TopicsListScreenState extends State<TopicsListScreen> {
                             onTap: () => AppParams.delegate.setNewRoutePath(
                                 AppPathModel(
                                     path:
-                                        '${widget.valueKey.value}/${snapshot.data[index].id.toString()}')),
+                                        '${widget.valueKey.value}/${snapshot.data[index].id.toString()}',
+                                    data: snapshot.data[index].toJson())),
                           )),
                 )),
               ));
@@ -54,88 +58,5 @@ class _TopicsListScreenState extends State<TopicsListScreen> {
             }
           },
         ));
-  }
-}
-
-class CustomListTile extends StatelessWidget {
-  const CustomListTile(
-      {required this.title,
-      required this.subtitle,
-      required this.dateTime,
-      required this.url,
-      required this.onTap,
-      Key? key})
-      : super(key: key);
-  final String title;
-  final String subtitle;
-  final DateTime dateTime;
-  final String url;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Card(
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 15.0),
-                child: CircleAvatar(
-                  backgroundColor: Colors.grey[300],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text(
-                        subtitle,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style:
-                            const TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Text(
-                          _getFormatted(),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                              fontStyle: FontStyle.italic),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  String _getFormatted() {
-    final formatter = DateFormat('yyyy-MM-dd hh:mm');
-    final String formatted = formatter.format(dateTime);
-    return formatted;
   }
 }

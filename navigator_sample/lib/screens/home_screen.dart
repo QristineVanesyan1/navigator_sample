@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navigator_sample/navigator/app_path.dart';
 import 'package:navigator_sample/widgets/button_widget.dart';
-import 'package:navigator_sample/data/topic_type.dart';
-import 'package:navigator_sample/navigator/app_params.dart';
+import 'package:navigator_sample/models/topic_type.dart';
+import 'package:navigator_sample/constants/app_params.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

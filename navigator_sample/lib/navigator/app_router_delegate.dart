@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:navigator_sample/navigator/app_path.dart';
-import 'package:navigator_sample/data/topic_type.dart';
+import 'package:navigator_sample/models/topic_type.dart';
 import 'package:navigator_sample/screens/error_screen.dart';
 import 'package:navigator_sample/screens/home_screen.dart';
 import 'package:navigator_sample/screens/details_screen.dart';
 import 'package:navigator_sample/screens/info_screen.dart';
 import 'package:navigator_sample/screens/topics_list_screen.dart';
 
+//setInitialRoutePath
+//setRestoredRoutePath
+//setNewRoutePath
+//popRoute
+//currentConfiguration
+//build
 class AppRouterDelegate extends RouterDelegate<AppPathModel>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   @override
@@ -25,6 +31,7 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
       key: navigatorKey,
       pages: pages,
       onPopPage: _onPopPage,
+      onGenerateRoute: null,
     );
   }
 
@@ -47,8 +54,10 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
           if (_isCorrectId(segments[1])) {
             pages.add(MaterialPage<void>(
                 child: DetailsScreen(
-                    id: segments[1],
-                    valueKey: ValueKey(segments.first.toString()))));
+              id: segments[1],
+              valueKey: ValueKey(segments.first.toString()),
+              reportJson: currentConfiguration.data as String?,
+            )));
             return pages;
           } else {
             pages.add(const MaterialPage<void>(child: ErrorScreen()));
@@ -78,6 +87,7 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
   }
 
   bool _onPopPage(Route route, dynamic result) {
+    debugPrint('onPopPage: $result');
     if (!route.didPop(result)) {
       return false;
     }
@@ -102,7 +112,24 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
   @override
   Future<void> setNewRoutePath(AppPathModel configuration) async {
     currentPath = configuration;
-
     notifyListeners();
+  }
+
+  @override
+  Future<void> setRestoredRoutePath(AppPathModel configuration) {
+    // TODO: implement setRestoredRoutePath
+    return super.setRestoredRoutePath(configuration);
+  }
+
+  @override
+  Future<void> setInitialRoutePath(AppPathModel configuration) {
+    // TODO: implement setInitialRoutePath
+    return super.setInitialRoutePath(configuration);
+  }
+
+  @override
+  Future<bool> popRoute() {
+    // TODO: implement popRoute
+    return super.popRoute();
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:navigator_sample/styles/theme_params.dart';
+import 'package:navigator_sample/constants/theme_params.dart';
 
 class CircularImageWidget extends StatelessWidget {
   const CircularImageWidget({Key? key}) : super(key: key);
