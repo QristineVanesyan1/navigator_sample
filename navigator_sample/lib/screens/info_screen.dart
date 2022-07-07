@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:navigator_sample/data/data_source.dart';
+import 'package:navigator_sample/domain/reports_repository.dart';
+import 'package:navigator_sample/locator.dart';
 import 'package:navigator_sample/models/info.dart';
 import 'package:navigator_sample/widgets/progress_widget.dart';
 
@@ -11,15 +12,17 @@ class InfoScreen extends StatefulWidget {
 }
 
 class _InfoScreenState extends State<InfoScreen> {
+  ReportsRepository get _reportsRepository => locator.get<ReportsRepository>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Info'),
+        title: const SelectableText('Info'),
         leading: BackButton(onPressed: () => Navigator.of(context).pop()),
       ),
       body: FutureBuilder<Info>(
-        future: DataSource().fetchInfo(),
+        future: _reportsRepository.fetchInfo(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final data = snapshot.data;
@@ -53,7 +56,7 @@ class _SourcesListWidget extends StatelessWidget {
     return ListView.builder(
         padding: const EdgeInsets.only(top: 10.0),
         itemCount: sources.length,
-        itemBuilder: (context, index) => Text(
+        itemBuilder: (context, index) => SelectableText(
               sources[index],
               textAlign: TextAlign.center,
             ));
@@ -68,7 +71,7 @@ class _ApiVersionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Text(
+      child: SelectableText(
         'v: $version',
         style: Theme.of(context).textTheme.bodyText2,
       ),

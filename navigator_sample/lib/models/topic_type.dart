@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navigator_sample/constants/constants.dart';
 
 enum TopicType {
   articles("Articles"),
@@ -61,11 +62,11 @@ enum TopicType {
   String getEndPoint() {
     switch (this) {
       case TopicType.articles:
-        return 'https://api.spaceflightnewsapi.net/v3/articles';
+        return '${Constants.baseEndPoint}articles';
       case TopicType.reports:
-        return "https://api.spaceflightnewsapi.net/v3/reports";
+        return "${Constants.baseEndPoint}reports";
       case TopicType.blogs:
-        return "https://api.spaceflightnewsapi.net/v3/blogs";
+        return "${Constants.baseEndPoint}blogs";
       default:
         return "";
     }
@@ -74,11 +75,11 @@ enum TopicType {
   String getDocLink() {
     switch (this) {
       case TopicType.articles:
-        return 'https://api.spaceflightnewsapi.net/v3/documentation#/Article';
+        return '${Constants.baseEndPoint}documentation#/Article';
       case TopicType.reports:
-        return "https://api.spaceflightnewsapi.net/v3/documentation#/Report";
+        return "${Constants.baseEndPoint}documentation#/Report";
       case TopicType.blogs:
-        return "https://api.spaceflightnewsapi.net/v3/documentation#/Blog";
+        return "${Constants.baseEndPoint}documentation#/Blog";
       default:
         return "";
     }
