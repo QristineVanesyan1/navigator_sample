@@ -9,8 +9,6 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      // title: 'Recognizer',//todo
-      restorationScopeId: "something",
       routeInformationParser: AppParams.parser,
       routerDelegate: AppParams.delegate,
       theme: ThemeParams.theme,

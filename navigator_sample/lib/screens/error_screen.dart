@@ -44,7 +44,7 @@ class _MessageWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('Oops!',
+        SelectableText('Oops!',
             style: kIsWeb
                 ? Theme.of(context).textTheme.headline1
                 : Theme.of(context).textTheme.headline2),

@@ -10,8 +10,8 @@ import 'package:navigator_sample/widgets/custom_list_tile.dart';
 import 'package:navigator_sample/widgets/progress_widget.dart';
 
 class TopicsListScreen extends StatefulWidget {
-  const TopicsListScreen({required this.valueKey}) : super(key: valueKey);
-  final ValueKey<String> valueKey;
+  const TopicsListScreen({required this.topicType, Key? key}) : super(key: key);
+  final TopicType topicType;
 
   @override
   State<TopicsListScreen> createState() => _TopicsListScreenState();
@@ -27,8 +27,7 @@ class _TopicsListScreenState extends State<TopicsListScreen> {
           leading: BackButton(onPressed: () => Navigator.of(context).pop()),
         ),
         body: FutureBuilder<List<Report>>(
-          future: _reportsRepository
-              .fetchData(TopicType.getType(widget.valueKey.value)),
+          future: _reportsRepository.fetchData(widget.topicType),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData) {
               return SingleChildScrollView(
@@ -44,11 +43,11 @@ class _TopicsListScreenState extends State<TopicsListScreen> {
                             title: snapshot.data[index].title,
                             subtitle: snapshot.data[index].summary,
                             url: snapshot.data[index].imageUrl,
-                            dateTime: snapshot.data[index].publishedAt,
+                            publishedAt: snapshot.data[index].publishedAt,
                             onTap: () => AppParams.delegate.setNewRoutePath(
                                 AppPathModel(
                                     path:
-                                        '${widget.valueKey.value}/${snapshot.data[index].id.toString()}',
+                                        '${widget.topicType.name}/${snapshot.data[index].id.toString()}',
                                     data: snapshot.data[index].toJson())),
                           )),
                 )),

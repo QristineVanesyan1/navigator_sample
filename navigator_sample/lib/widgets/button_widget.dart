@@ -93,6 +93,7 @@ class _TopicSummaryWidget extends StatelessWidget {
   const _TopicSummaryWidget({required this.topicType, Key? key})
       : super(key: key);
   final TopicType topicType;
+
   @override
   Widget build(BuildContext context) {
     return Column(

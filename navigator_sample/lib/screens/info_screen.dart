@@ -18,7 +18,7 @@ class _InfoScreenState extends State<InfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Info'),
+        title: const SelectableText('Info'),
         leading: BackButton(onPressed: () => Navigator.of(context).pop()),
       ),
       body: FutureBuilder<Info>(
@@ -56,7 +56,7 @@ class _SourcesListWidget extends StatelessWidget {
     return ListView.builder(
         padding: const EdgeInsets.only(top: 10.0),
         itemCount: sources.length,
-        itemBuilder: (context, index) => Text(
+        itemBuilder: (context, index) => SelectableText(
               sources[index],
               textAlign: TextAlign.center,
             ));
@@ -71,7 +71,7 @@ class _ApiVersionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Text(
+      child: SelectableText(
         'v: $version',
         style: Theme.of(context).textTheme.bodyText2,
       ),

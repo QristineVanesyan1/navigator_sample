@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:navigator_sample/models/topic_type.dart';
 import 'package:navigator_sample/navigator/app_path.dart';
 
 class AppRouteInformationParser extends RouteInformationParser<AppPathModel> {
-  //RouteInformation -> state?
   @override
   Future<AppPathModel> parseRouteInformation(
       RouteInformation routeInformation) async {
@@ -11,18 +11,19 @@ class AppRouteInformationParser extends RouteInformationParser<AppPathModel> {
     if (count == 0) {
       return AppPathModel(
           isRoot: true, path: null, data: routeInformation.state);
-    } else if (count == 1 || count == 2) {
-      String url = '';
-      for (int i = 0; i < count; i++) {
-        url += "/${uri.pathSegments[i]}";
+    } else if (count == 1) {
+      if (_isCorrectCatalog(uri.pathSegments.first)) {
+        return AppPathModel(path: routeInformation.location);
       }
-      return AppPathModel(path: url, data: routeInformation.state);
-    } else {
-      return AppPathModel(isUnknown: true, data: routeInformation.state);
+    } else if (count == 2) {
+      if (_isCorrectCatalog(uri.pathSegments.first) &&
+          _hasMatch(uri.pathSegments.first, uri.pathSegments[1])) {
+        return AppPathModel(path: routeInformation.location);
+      }
     }
+    return AppPathModel(isUnknown: true);
   }
 
-// this method responsible for URL
   @override
   RouteInformation? restoreRouteInformation(AppPathModel configuration) {
     if (configuration.isRoot == true) {
@@ -32,6 +33,25 @@ class AppRouteInformationParser extends RouteInformationParser<AppPathModel> {
     } else {
       return RouteInformation(
           location: configuration.path, state: configuration.data);
+    }
+  }
+
+  bool _isCorrectCatalog(String mainSegment) =>
+      (mainSegment == TopicType.articles.name ||
+          mainSegment == TopicType.reports.name ||
+          mainSegment == TopicType.blogs.name);
+
+  RegExp _getRegex(int count) => RegExp("^[0-9]{$count}\$");
+
+  bool _hasMatch(String mainSegment, String id) {
+    if (mainSegment == TopicType.articles.name) {
+      return _getRegex(5).hasMatch(id);
+    } else if (mainSegment == TopicType.reports.name) {
+      return _getRegex(4).hasMatch(id);
+    } else if (mainSegment == TopicType.blogs.name) {
+      return _getRegex(3).hasMatch(id);
+    } else {
+      return false;
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:navigator_sample/navigator/app_path.dart';
 import 'package:navigator_sample/models/topic_type.dart';
+import 'package:navigator_sample/navigator/app_path.dart';
 import 'package:navigator_sample/screens/error_screen.dart';
 import 'package:navigator_sample/screens/home_screen.dart';
 import 'package:navigator_sample/screens/details_screen.dart';
@@ -29,25 +29,6 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
     );
   }
 
-  RegExp _getRegex(int count) => RegExp("^[0-9]{$count}\$");
-
-  bool _isCorrectCatalog(String catalog) =>
-      (catalog == TopicType.articles.name ||
-          catalog == TopicType.reports.name ||
-          catalog == TopicType.blogs.name);
-
-  bool _getRegex1(String catalog, String id) {
-    if (catalog == TopicType.articles.name) {
-      return _getRegex(5).hasMatch(id);
-    } else if (catalog == TopicType.reports.name) {
-      return _getRegex(4).hasMatch(id);
-    } else if (catalog == TopicType.blogs.name) {
-      return _getRegex(3).hasMatch(id);
-    } else {
-      return false;
-    }
-  }
-
   List<Page<dynamic>> _pages() {
     var pages = <Page<dynamic>>[];
     if (currentConfiguration.isRoot == true) {
@@ -57,26 +38,20 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
     } else {
       final segments = Uri.parse(currentConfiguration.path ?? '').pathSegments;
       if (segments.length == 2) {
-        if (_isCorrectCatalog(segments.first)) {
-          if (_getRegex1(segments.first, segments[1])) {
-            pages.add(MaterialPage<void>(
-                child: DetailsScreen(
-              id: segments[1],
-              valueKey: ValueKey(segments.first.toString()),
-              reportJson: currentConfiguration.data as String?,
-            )));
-          }
-        }
+        pages.add(MaterialPage<void>(
+            child: DetailsScreen(
+          id: segments[1],
+          topicType: TopicType.getType(segments.first),
+          reportJson: currentConfiguration.data as String?,
+        )));
       } else if (segments.length == 1) {
         if (segments.first == 'info') {
           pages.add(const MaterialPage<void>(child: InfoScreen()));
           return pages;
-        } else if (segments.first == TopicType.articles.name ||
-            segments.first == TopicType.reports.name ||
-            segments.first == TopicType.blogs.name) {
+        } else {
           pages.add(MaterialPage<void>(
               child: TopicsListScreen(
-            valueKey: ValueKey(segments.first),
+            topicType: TopicType.getType(segments.first),
           )));
         }
       }
@@ -85,6 +60,7 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
   }
 
   bool _onPopPage(Route route, dynamic result) {
+    // set previous page url
     debugPrint('onPopPage: $result');
     if (!route.didPop(result)) {
       return false;
@@ -111,23 +87,5 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
   Future<void> setNewRoutePath(AppPathModel configuration) async {
     currentPath = configuration;
     notifyListeners();
-  }
-
-  @override
-  Future<void> setRestoredRoutePath(AppPathModel configuration) {
-    // TODO: implement setRestoredRoutePath
-    return super.setRestoredRoutePath(configuration);
-  }
-
-  @override
-  Future<void> setInitialRoutePath(AppPathModel configuration) {
-    // TODO: implement setInitialRoutePath
-    return super.setInitialRoutePath(configuration);
-  }
-
-  @override
-  Future<bool> popRoute() {
-    // TODO: implement popRoute
-    return super.popRoute();
   }
 }

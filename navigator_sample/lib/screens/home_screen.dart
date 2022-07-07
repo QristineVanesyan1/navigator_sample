@@ -52,7 +52,8 @@ class _TitleWidget extends StatelessWidget {
         padding: kIsWeb
             ? const EdgeInsets.only(bottom: 30)
             : const EdgeInsets.only(bottom: 10),
-        child: Text("Features", style: Theme.of(context).textTheme.headline1));
+        child: SelectableText("Features",
+            style: Theme.of(context).textTheme.headline1));
   }
 }
 
@@ -70,5 +71,5 @@ class _InfoWidget extends StatelessWidget {
   }
 
   void _onTap() =>
-      AppParams.delegate.setNewRoutePath(AppPathModel(path: 'info')); //todo: ??
+      AppParams.delegate.setNewRoutePath(AppPathModel(path: 'info'));
 }

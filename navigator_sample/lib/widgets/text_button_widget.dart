@@ -12,7 +12,8 @@ class TextButtonWidget extends StatelessWidget {
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: Text(title, style: Theme.of(context).textTheme.headline3),
+        child:
+            SelectableText(title, style: Theme.of(context).textTheme.headline3),
       ),
     );
   }

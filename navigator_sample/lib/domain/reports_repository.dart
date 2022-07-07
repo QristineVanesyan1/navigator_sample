@@ -7,8 +7,7 @@ import 'dart:convert';
 
 class ReportsRepository {
   Future<List<Report>> fetchData(TopicType topicType) async {
-    String link = '';
-    link = '${Constants.baseEndPoint}${topicType.toString()}';
+    String link = '${Constants.baseEndPoint}${topicType.name}';
 
     var response = await http.get(Uri.parse(link));
     if (response.statusCode == 200) {
@@ -24,6 +23,7 @@ class ReportsRepository {
     {
       var catalog = 'info';
       final endpoint = '${Constants.baseEndPoint}$catalog';
+
       var response = await http.get(Uri.parse(endpoint));
       if (response.statusCode == 200) {
         var responseBody = response.bodyBytes;
@@ -31,15 +31,15 @@ class ReportsRepository {
         var jsonResponse = json.decode(body);
         return Info.fromJson(jsonResponse);
       }
-      throw Exception("Something went wrong");
+      throw Exception();
     }
   }
 
-  Future<Report?> getReport(String topicType, String id) async {
+  Future<Report?> getReport(TopicType topicType, String id) async {
     if (id == '') {
       return null;
     }
-    final endpoint = '${Constants.baseEndPoint}$topicType/$id';
+    final endpoint = '${Constants.baseEndPoint}${topicType.name}/$id';
     var response = await http.get(Uri.parse(endpoint));
     if (response.statusCode == 200) {
       var responseBody = response.bodyBytes;
