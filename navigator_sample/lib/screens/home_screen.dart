@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:navigator_sample/navigator/app_path.dart';
 import 'package:navigator_sample/widgets/button_widget.dart';
 import 'package:navigator_sample/models/topic_type.dart';
-import 'package:navigator_sample/constants/app_params.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -57,9 +56,14 @@ class _TitleWidget extends StatelessWidget {
   }
 }
 
-class _InfoWidget extends StatelessWidget {
+class _InfoWidget extends StatefulWidget {
   const _InfoWidget({Key? key}) : super(key: key);
 
+  @override
+  State<_InfoWidget> createState() => _InfoWidgetState();
+}
+
+class _InfoWidgetState extends State<_InfoWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -70,6 +74,7 @@ class _InfoWidget extends StatelessWidget {
         ));
   }
 
-  void _onTap() =>
-      AppParams.delegate.setNewRoutePath(AppPathModel(path: 'info'));
+  void _onTap() => Router.of(context)
+      .routerDelegate
+      .setNewRoutePath(AppPathModel(path: 'info'));
 }

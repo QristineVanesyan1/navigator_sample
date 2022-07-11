@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navigator_sample/navigator/app_path.dart';
 import 'package:navigator_sample/models/topic_type.dart';
-import 'package:navigator_sample/constants/app_params.dart';
 import 'package:navigator_sample/widgets/circular_image_widget.dart';
 import 'package:navigator_sample/widgets/divider_widget.dart';
 import 'package:navigator_sample/widgets/text_button_widget.dart';
@@ -77,9 +76,10 @@ class _ButtonWidgetState extends State<ButtonWidget> {
     }
   }
 
-  void _onTap() => AppParams.delegate.setNewRoutePath(AppPathModel(
-        path: widget.topicType.name,
-      ));
+  void _onTap() =>
+      Router.of(context).routerDelegate.setNewRoutePath(AppPathModel(
+            path: widget.topicType.name,
+          ));
 }
 
 class _ApiDetailsButtonWidget extends StatelessWidget {

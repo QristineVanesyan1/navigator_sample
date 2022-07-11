@@ -23,10 +23,7 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
     List<Page> pages = _pages();
 
     return Navigator(
-      key: navigatorKey,
-      pages: pages,
-      onPopPage: _onPopPage,
-    );
+        key: navigatorKey, pages: pages, onPopPage: _handlePopPage);
   }
 
   List<Page<dynamic>> _pages() {
@@ -59,28 +56,26 @@ class AppRouterDelegate extends RouterDelegate<AppPathModel>
     return pages;
   }
 
-  bool _onPopPage(Route route, dynamic result) {
-    // set previous page url
-    debugPrint('onPopPage: $result');
-    if (!route.didPop(result)) {
+  bool _handlePopPage(Route<dynamic> route, dynamic res) {
+    Page page = route.settings as Page; //crash?
+    if (page.key == ValueKey<String>('home')) {
+      assert(!route.willHandlePopInternally);
+      // Do not pop the home page.
       return false;
     }
-    if (currentPath.isRoot != true) {
-      final location = currentPath.path;
-      if (location?.lastIndexOf('/') != -1) {
-        final path = location?.substring(0, location.lastIndexOf('/'));
-        if (path == '') {
-          setNewRoutePath(AppPathModel(isRoot: true));
-        } else {
-          setNewRoutePath(AppPathModel(isRoot: false, path: path));
-        }
-        return true;
-      } else {
-        setNewRoutePath(AppPathModel(isRoot: true));
-        return true;
-      }
+
+    final bool result = route.didPop(res);
+    // Update state to remove the page in question; if this modifies the state
+    // it will call our listener, which will cause a rebuild.
+    if (page.key == ValueKey<String>('search')) {
+      // state.searchQuery = null;
+      return true;
     }
-    return false;
+    if (page.key == ValueKey<String>('details')) {
+      // state.stockSymbol = null;
+      return true;
+    }
+    return true;
   }
 
   @override

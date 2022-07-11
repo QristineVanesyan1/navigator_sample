@@ -3,7 +3,6 @@ import 'package:navigator_sample/domain/reports_repository.dart';
 import 'package:navigator_sample/locator.dart';
 import 'package:navigator_sample/navigator/app_path.dart';
 import 'package:navigator_sample/models/topic_type.dart';
-import 'package:navigator_sample/constants/app_params.dart';
 import 'package:navigator_sample/models/report.dart';
 import 'package:navigator_sample/widgets/custom_list_tile.dart';
 import 'package:navigator_sample/widgets/progress_widget.dart';
@@ -44,10 +43,11 @@ class _TopicsListScreenState extends State<TopicsListScreen> {
                             url: snapshot.data[index].imageUrl,
                             publishedAt: snapshot.data[index].publishedAt,
                             onTap: () {
-                              AppParams.delegate.setNewRoutePath(AppPathModel(
-                                  path:
-                                      '${widget.topicType.name}/${snapshot.data[index].id.toString()}',
-                                  data: snapshot.data[index].toJson()));
+                              Router.of(context).routerDelegate.setNewRoutePath(
+                                  AppPathModel(
+                                      path:
+                                          '${widget.topicType.name}/${snapshot.data[index].id.toString()}',
+                                      data: snapshot.data[index].toJson()));
                             },
                           )),
                 )),
