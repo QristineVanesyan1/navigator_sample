@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:navigator_sample/constants/constants.dart';
 
 enum TopicType {
@@ -48,17 +47,6 @@ enum TopicType {
     }
   }
 
-  Widget getIcon() {
-    switch (this) {
-      case TopicType.articles:
-        return const Icon(Icons.article);
-      case TopicType.blogs:
-        return const Icon(Icons.info);
-      default:
-        return const Icon(Icons.report);
-    }
-  }
-
   String getEndPoint() {
     switch (this) {
       case TopicType.articles:
@@ -80,6 +68,19 @@ enum TopicType {
         return "${Constants.baseEndPoint}documentation#/Report";
       case TopicType.blogs:
         return "${Constants.baseEndPoint}documentation#/Blog";
+      default:
+        return "";
+    }
+  }
+
+  String getImage() {
+    switch (this) {
+      case TopicType.articles:
+        return "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/static/home/thespacedevs/images/snapifeatures/news.jpg";
+      case TopicType.reports:
+        return "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/static/home/thespacedevs/images/snapifeatures/reports.jpg";
+      case TopicType.blogs:
+        return "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/static/home/thespacedevs/images/snapifeatures/blogs.jpg";
       default:
         return "";
     }

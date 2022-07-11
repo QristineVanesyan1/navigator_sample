@@ -22,33 +22,59 @@ class _ButtonWidgetState extends State<ButtonWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        InkWell(
-            onTap: _onTap,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CircularImageWidget(),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 20, 40, 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _TopicSummaryWidget(
-                          topicType: widget.topicType,
-                        ),
-                        _ApiDetailsButtonWidget(
-                          topicType: widget.topicType,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            )),
+        InkWell(onTap: _onTap, child: _renderResizableContent()),
         const DividerWidget()
       ],
     );
+  }
+
+  Widget _renderResizableContent() {
+    final screenSize = MediaQuery.of(context).size;
+    final screenWidth = screenSize.width;
+    if (screenWidth > 800) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: CircularImageWidget(
+              url: widget.topicType.getImage(),
+              size: CircularImageSize.big,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: MediaQuery.of(context).size.width > 800
+                  ? const EdgeInsets.fromLTRB(10, 20, 40, 20)
+                  : const EdgeInsets.fromLTRB(0, 10, 20, 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _TopicSummaryWidget(
+                    topicType: widget.topicType,
+                  ),
+                  _ApiDetailsButtonWidget(
+                    topicType: widget.topicType,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          CircularImageWidget(
+            url: widget.topicType.getImage(),
+            size: CircularImageSize.big,
+          ),
+          _TopicSummaryWidget(
+            topicType: widget.topicType,
+          ),
+        ],
+      );
+    }
   }
 
   void _onTap() => AppParams.delegate.setNewRoutePath(AppPathModel(
@@ -72,7 +98,7 @@ class _ApiDetailsButtonWidget extends StatelessWidget {
         onTap: () => _onTopicButtonTap(topicType.getEndPoint()),
       )
     ];
-    return kIsWeb
+    return kIsWeb && MediaQuery.of(context).size.width > 800
         ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: buttons,

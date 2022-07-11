@@ -24,9 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: kIsWeb
-                ? const EdgeInsets.symmetric(horizontal: 170, vertical: 50)
-                : const EdgeInsets.all(20),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.08,
+                vertical: 50),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

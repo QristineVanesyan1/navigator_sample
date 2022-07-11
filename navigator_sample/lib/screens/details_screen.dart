@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 import 'package:navigator_sample/constants/constants.dart';
@@ -48,10 +47,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 if (snapshot.data != null) {
                   final Report report = snapshot.data!;
                   return Container(
-                    padding: kIsWeb
-                        ? const EdgeInsets.symmetric(
-                            horizontal: 170, vertical: 50)
-                        : const EdgeInsets.all(20),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.08,
+                        vertical: 50),
                     child: Card(
                       elevation: 2,
                       child: Padding(
