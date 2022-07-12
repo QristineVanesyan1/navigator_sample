@@ -9,6 +9,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      restorationScopeId: 'root',
       debugShowCheckedModeBanner: false,
       routeInformationParser: AppRouteInformationParser(),
       routerDelegate: AppRouterDelegate(),
