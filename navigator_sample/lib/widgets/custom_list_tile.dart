@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navigator_sample/constants/constants.dart';
+import 'package:navigator_sample/widgets/circular_image_widget.dart';
 
 class CustomListTile extends StatelessWidget {
   const CustomListTile(
@@ -26,7 +27,9 @@ class CustomListTile extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              const _LeadingWidget(),
+              _LeadingWidget(
+                url: url,
+              ),
               _ContentWidget(
                   title: title, subtitle: subtitle, publishedAt: publishedAt),
             ],
@@ -79,16 +82,15 @@ class _ContentWidget extends StatelessWidget {
 }
 
 class _LeadingWidget extends StatelessWidget {
-  const _LeadingWidget({Key? key}) : super(key: key);
-
+  const _LeadingWidget({required this.url, Key? key}) : super(key: key);
+  final String url;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 15.0),
-      child: CircleAvatar(
-        backgroundColor: Colors.grey[300],
-      ),
-    );
+        padding: const EdgeInsets.only(right: 15.0),
+        child: CircularImageWidget(
+          url: url,
+        ));
   }
 }
 
